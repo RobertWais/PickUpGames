@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "649312392550",
+    "firebase_url": "https://pickupgames-63e17.firebaseio.com",
+    "project_id": "pickupgames-63e17",
+    "storage_bucket": "pickupgames-63e17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649312392550:android:85780b608235432c",
+        "android_client_info": {
+          "package_name": "com.example.robertwais.pickupgames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649312392550-3qfuhumfu1mmla9jd3g5k794lm3ekft3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robertwais.pickupgames",
+            "certificate_hash": "f11fff8ce91d33578a99fb14e517659c09f5a0d6"
+          }
+        },
+        {
+          "client_id": "649312392550-fs9gjlqosjiat4un8v1en9e59g26g1oe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnlRdwdwkRv69ngVpoPDiwz0pShuKGZfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649312392550-fs9gjlqosjiat4un8v1en9e59g26g1oe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
