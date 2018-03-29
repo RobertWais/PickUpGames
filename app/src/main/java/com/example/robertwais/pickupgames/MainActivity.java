@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseDatabase db;
     private DatabaseReference dbRef, mDatabase;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; 
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText email;
