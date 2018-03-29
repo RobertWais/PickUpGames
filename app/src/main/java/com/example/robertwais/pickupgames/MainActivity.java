@@ -19,12 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
+//test
     private AlertDialog.Builder alert;
 
     private FirebaseDatabase db;
     private DatabaseReference dbRef, mDatabase;
-    private FirebaseAuth mAuth; 
+    private FirebaseAuth mAuth;
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText email;
