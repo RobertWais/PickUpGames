@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "649312392550-ps0v2b7jbdo49a6vb9mh21ngi1ln4msh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robertwais.pickupgames",
+            "certificate_hash": "1b1881739b9046e63f6b506fb555a1d8f630bdcc"
+          }
+        },
+        {
           "client_id": "649312392550-3qfuhumfu1mmla9jd3g5k794lm3ekft3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
