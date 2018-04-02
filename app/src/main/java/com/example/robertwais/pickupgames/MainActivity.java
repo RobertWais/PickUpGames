@@ -1,5 +1,6 @@
 package com.example.robertwais.pickupgames;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                                  }else{
                                      Toast.makeText(MainActivity.this,"Signed In", Toast.LENGTH_LONG).show();
                                      dbRef.setValue("test2");
+                                     startActivity(new Intent(MainActivity.this, EventBoardActivity.class));
                                  }
 
                             }
