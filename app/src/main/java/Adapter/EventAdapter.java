@@ -1,9 +1,7 @@
 package Adapter;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +54,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.title);
+            name = (TextView) itemView.findViewById(R.id.title_label);
             description = (TextView) itemView.findViewById(R.id.description);
         }
     }

@@ -1,5 +1,9 @@
 package Model;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Markus on 4/1/2018.
  */

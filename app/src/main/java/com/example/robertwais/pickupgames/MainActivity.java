@@ -87,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
                                  }else{
                                      Toast.makeText(MainActivity.this,"Signed In", Toast.LENGTH_LONG).show();
                                      dbRef.setValue("test2");
-                                     startActivity(new Intent(MainActivity.this, EventBoardActivity.class));
+                                     Intent intent = new Intent(MainActivity.this, EventBoardActivity.class);
+                                     intent.putExtra("flag", "login");
+                                     startActivity(intent);
                                  }
 
                             }
