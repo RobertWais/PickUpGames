@@ -4,5 +4,5 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signOut">Sign Out</string>
-    <string name="SignUp" ><bold>+</bold></string>
+    <string name="SignUp"><bold>+</bold></string>
 </resources>
