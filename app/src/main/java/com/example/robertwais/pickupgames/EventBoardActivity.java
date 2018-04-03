@@ -45,16 +45,16 @@ public class EventBoardActivity extends AppCompatActivity {
             listItems.add(item);
         }
 
-        /*
+
         for(int i = 0; i < 15; i++) {
              ListItem item = new ListItem(
                      "Item" + (i+1),
-                     "Description"
+                     "Description"+(i)
              );
 
              listItems.add(item);
         }
-        */
+
 
         adapter = new EventAdapter(this, listItems);
         recyclerView.setAdapter(adapter);
