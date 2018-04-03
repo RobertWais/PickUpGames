@@ -1,4 +1,4 @@
-# PickUpGames
+<h1>PickUpGames</h1>
 
 University of Wisconsin - La Crosse
 Android - Java
