@@ -56,6 +56,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
                 intent.putExtra("flag", "cancel");
                 startActivity(intent);
+                finish();
             }
         });
         

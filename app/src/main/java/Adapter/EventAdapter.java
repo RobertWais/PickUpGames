@@ -15,6 +15,7 @@ import com.example.robertwais.pickupgames.R;
 import java.util.List;
 
 import Model.ListItem;
+import Model.Post;
 
 /**
  * Created by Markus on 4/1/2018.
@@ -23,7 +24,7 @@ import Model.ListItem;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
     private Context context;
-    private List<ListItem> listItems;
+    private List<Post> listItems;
 
     public EventAdapter(Context context, List listItem) {
         this.context = context;
@@ -39,8 +40,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(EventAdapter.ViewHolder holder, int position) {
-        ListItem item = listItems.get(position);
-        holder.name.setText(item.getName());
+        Post item = listItems.get(position);
+        holder.name.setText(item.getTitle());
         holder.description.setText(item.getDescription());
 
 
@@ -70,15 +71,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
             //This is where the user has tapped
             int position = getAdapterPosition();
-            ListItem item = listItems.get(position);
+            Post item = listItems.get(position);
 
             Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra("Title", item.getName());
+            intent.putExtra("Title", item.getTitle());
             intent.putExtra("Description", item.getDescription());
 
             context.startActivity(intent);
 
-            Toast.makeText(context, item.getName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
         }
     }
 }
