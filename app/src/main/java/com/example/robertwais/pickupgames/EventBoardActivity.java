@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,8 @@ public class EventBoardActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private List<ListItem> listItems;
     private Button createButton;
+    private Button signOut;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class EventBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_board);
 
         createButton = findViewById(R.id.create);
+        signOut = findViewById(R.id.signout);
+        mAuth = FirebaseAuth.getInstance();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewID);
         recyclerView.setHasFixedSize(true);
@@ -66,6 +73,15 @@ public class EventBoardActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventBoardActivity.this, CreateEventActivity.class);
                 //intent.putExtra("list", listItems);
                 startActivity(intent);
+            }
+        });
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(EventBoardActivity.this,"Signing out user: "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                mAuth.signOut();
+                startActivity(new Intent(EventBoardActivity.this, MainActivity.class));
             }
         });
     }
