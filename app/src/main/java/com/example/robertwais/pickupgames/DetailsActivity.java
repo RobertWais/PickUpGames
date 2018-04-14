@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import Adapter.EventAdapter;
@@ -34,7 +35,8 @@ private Button attend, decline;
 private FirebaseUser user;
 private FirebaseAuth auth;
 private FirebaseDatabase db;
-private DatabaseReference dbRef;
+private DatabaseReference dbRef, refPost,refComments,refAttending;
+private HashSet<String> attendingSet = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,10 @@ private DatabaseReference dbRef;
         passedThru = getIntent().getExtras();
         db = FirebaseDatabase.getInstance();
 
-        dbRef = db.getReference().child("Comments").child(passedThru.getString("CommentsID"));
+        dbRef = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments");
+        refPost = db.getReference().child("Comments").child(passedThru.getString("CommentsID"));
+        refComments = refPost.child("comments");
+        refAttending = refPost.child("attending");
 
         if(dbRef == null){
             Toast.makeText(DetailsActivity.this,"We null", Toast.LENGTH_SHORT).show();
@@ -71,6 +76,14 @@ private DatabaseReference dbRef;
             @Override
             public void onClick(View view) {
                 //check if already attending
+                if (attendingSet.contains(user.getUid())){
+                    Toast.makeText(DetailsActivity.this, "Already Attending ", Toast.LENGTH_SHORT).show();
+                } else{
+                    String id = Integer.toString(attendingSet.size());
+
+                    refAttending.child(idw).setValue((String)user.getUid());
+                    Toast.makeText(DetailsActivity.this, "Not attending yet", Toast.LENGTH_SHORT).show();
+                }
                 //if not add to attending
                 //if so display toast
 
@@ -83,15 +96,15 @@ private DatabaseReference dbRef;
     protected void onStart() {
         super.onStart();
 
-        if (dbRef != null) {
-            dbRef.addValueEventListener(new ValueEventListener() {
+        if (refComments != null) {
+            refComments.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     ArrayList<Integer> list = new ArrayList<>();
                     //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
                     List messages = (List) snapshot.getValue();
                     for (int i = 0; i < messages.size(); i++) {
-                        Toast.makeText(DetailsActivity.this, "Message " + messages.get(i), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(DetailsActivity.this, "Message " + messages.get(i), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -104,6 +117,23 @@ private DatabaseReference dbRef;
                 }
             });
         }
+
+        refAttending.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List attending = (List) dataSnapshot.getValue();
+                attendingSet = new HashSet<>();
+                for(int i=0; i<attending.size();i++){
+
+                    attendingSet.add((String)attending.get(i));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

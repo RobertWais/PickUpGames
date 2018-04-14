@@ -106,7 +106,8 @@ public class EventBoardActivity extends AppCompatActivity {
 
                     DatabaseReference temp = dataSnapshot.getRef();
 
-                    Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
+                    //DONT DELETE
+                    //Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
 
                     Post post = dataSnapshot.getValue(Post.class);
                     post.setPostID(temp.getKey());
