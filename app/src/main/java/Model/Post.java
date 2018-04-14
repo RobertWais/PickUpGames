@@ -12,6 +12,7 @@ public class Post {
     private String description;
     private String time;
     private String title;
+    private String postID;
 
     public Post(int attending, int comments, String description, String time, String title) {
         this.attending = attending;
@@ -22,6 +23,13 @@ public class Post {
     }
     public Post(){}
 
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
+    }
 
     //GETTERS
     public int getAttending() {

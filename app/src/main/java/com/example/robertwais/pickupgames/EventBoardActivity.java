@@ -42,6 +42,14 @@ public class EventBoardActivity extends AppCompatActivity {
     private Button createButton;
     private Button signOut;
     private FirebaseAuth mAuth;
+    private int flag = 1;
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        flag = 0;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +80,6 @@ public class EventBoardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String checkFlag = intent.getStringExtra("flag");
 
-        /*
-        if(checkFlag.equals("create")) {
-            ListItem item = new ListItem(
-                    intent.getStringExtra("title"),
-                    intent.getStringExtra("desc")
-            );
-            listItems.add(item);
-        }
-
-
-        for(int i = 0; i < 15; i++) {
-             ListItem item = new ListItem(
-                     "Item" + (i+1),
-                     "Description"+(i)
-             );
-
-             listItems.add(item);
-        }
-*/
 
         //adapter = new EventAdapter(this, listItems);
         //recyclerView.setAdapter(adapter);
@@ -111,41 +100,48 @@ public class EventBoardActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        dbRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            dbRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                    DatabaseReference temp = dataSnapshot.getRef();
+
+                    Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
+
+                    Post post = dataSnapshot.getValue(Post.class);
+                    post.setPostID(temp.getKey());
+                    postList.add(post);
+
+                    adapter = new EventAdapter(EventBoardActivity.this, postList);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
 
-                Post post = dataSnapshot.getValue(Post.class);
-                postList.add(post);
 
-                adapter = new EventAdapter(EventBoardActivity.this, postList);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
 
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override

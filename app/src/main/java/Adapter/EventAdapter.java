@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.robertwais.pickupgames.DetailsActivity;
+import com.example.robertwais.pickupgames.EventBoardActivity;
 import com.example.robertwais.pickupgames.R;
 
 import java.util.List;
@@ -76,10 +77,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.putExtra("Title", item.getTitle());
             intent.putExtra("Description", item.getDescription());
+            intent.putExtra("Time",item.getTime());
+            intent.putExtra("CommentsID",item.getPostID());
 
             context.startActivity(intent);
-
-            Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
         }
     }
 }
