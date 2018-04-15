@@ -28,7 +28,7 @@ import Adapter.EventAdapter;
 import Model.Post;
 
 public class DetailsActivity extends AppCompatActivity {
-private String title, description;
+private String title, description,keyAttending;
 private TextView descIn, titleIN, timeIN;
 private Bundle passedThru;
 private Button attend, decline;
@@ -37,6 +37,8 @@ private FirebaseAuth auth;
 private FirebaseDatabase db;
 private DatabaseReference dbRef, refPost,refComments,refAttending;
 private HashSet<String> attendingSet = new HashSet<>();
+private List localList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ private HashSet<String> attendingSet = new HashSet<>();
 
 
         attend = (Button) findViewById(R.id.attendingBtn);
-        decline = (Button) findViewById(R.id.attendingBtn);
+        decline = (Button) findViewById(R.id.declineBtn);
         descIn = (TextView) findViewById(R.id.descInput);
         titleIN = (TextView) findViewById(R.id.titleInput);
         timeIN = (TextView) findViewById(R.id.timeInput);
@@ -81,7 +83,7 @@ private HashSet<String> attendingSet = new HashSet<>();
                 } else{
                     String id = Integer.toString(attendingSet.size());
 
-                    refAttending.child(idw).setValue((String)user.getUid());
+                    refAttending.child(id).setValue((String)user.getUid());
                     Toast.makeText(DetailsActivity.this, "Not attending yet", Toast.LENGTH_SHORT).show();
                 }
                 //if not add to attending
@@ -90,6 +92,30 @@ private HashSet<String> attendingSet = new HashSet<>();
 
             }
         });
+
+        decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(attendingSet.contains(user.getUid())){
+                    //Remove from list
+                    int removeIndex=0;
+                    for(int i=0;i<localList.size();i++){
+                        if(localList.get(i).equals(user.getUid())){
+                            Toast.makeText(DetailsActivity.this, "Its in there", Toast.LENGTH_SHORT).show();
+                            removeIndex=i;
+                        }
+                    }
+                    localList.remove(removeIndex);
+                    refAttending.setValue(localList);
+                    Toast.makeText(DetailsActivity.this, "No longer attending event", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(DetailsActivity.this, "User was never attending", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
     }
 
     @Override
@@ -122,9 +148,13 @@ private HashSet<String> attendingSet = new HashSet<>();
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List attending = (List) dataSnapshot.getValue();
+                localList = attending;
+
                 attendingSet = new HashSet<>();
                 for(int i=0; i<attending.size();i++){
+                    if(((String)attending.get(i)).equals(user.getUid())){
 
+                    }
                     attendingSet.add((String)attending.get(i));
                 }
             }

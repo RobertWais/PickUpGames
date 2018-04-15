@@ -7,7 +7,7 @@
     tools:context="com.example.robertwais.pickupgames.DetailsActivity">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/declineBtn"
         android:layout_width="152dp"
         android:layout_height="47dp"
         android:layout_marginBottom="248dp"
@@ -111,7 +111,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/attending"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/declineBtn"
         app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
