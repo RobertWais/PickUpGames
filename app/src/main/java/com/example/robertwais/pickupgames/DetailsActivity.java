@@ -37,7 +37,7 @@ private FirebaseAuth auth;
 private FirebaseDatabase db;
 private DatabaseReference dbRef, refPost,refComments,refAttending;
 private HashSet<String> attendingSet = new HashSet<>();
-private List localList;
+private ArrayList<String> localList;
 
 
     @Override
@@ -126,13 +126,17 @@ private List localList;
             refComments.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    ArrayList<Integer> list = new ArrayList<>();
+                    //ArrayList<Integer> list = new ArrayList<>();
                     //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
-                    List messages = (List) snapshot.getValue();
-                    for (int i = 0; i < messages.size(); i++) {
-                        //Toast.makeText(DetailsActivity.this, "Message " + messages.get(i), Toast.LENGTH_SHORT).show();
-                    }
+                    ArrayList<String> messages = (ArrayList) snapshot.getValue();
+                    if(messages!=null) {
+                        for (int i = 0; i < messages.size(); i++) {
+                            Toast.makeText(DetailsActivity.this, "Message " + messages.get(i), Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(DetailsActivity.this, "No Messages", Toast.LENGTH_SHORT).show();
 
+                    }
                 }
 
                 // onCancelled...
@@ -147,15 +151,20 @@ private List localList;
         refAttending.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List attending = (List) dataSnapshot.getValue();
+                ArrayList<String> attending = (ArrayList) dataSnapshot.getValue();
+                //List attending = (List) dataSnapshot.getValue();
                 localList = attending;
 
                 attendingSet = new HashSet<>();
-                for(int i=0; i<attending.size();i++){
-                    if(((String)attending.get(i)).equals(user.getUid())){
+                if (attending !=null) {
+                    for (int i = 0; i < attending.size(); i++) {
+                        if (((String) attending.get(i)).equals(user.getUid())) {
 
+                        }
+                        attendingSet.add((String) attending.get(i));
                     }
-                    attendingSet.add((String)attending.get(i));
+                }else{
+                    attending = new ArrayList<>();
                 }
             }
 

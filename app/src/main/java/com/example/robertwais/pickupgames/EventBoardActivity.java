@@ -94,55 +94,6 @@ public class EventBoardActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-            dbRef.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    DatabaseReference temp = dataSnapshot.getRef();
-
-                    //DONT DELETE
-                    //Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
-
-                    Post post = dataSnapshot.getValue(Post.class);
-                    post.setPostID(temp.getKey());
-                    postList.add(post);
-
-                    adapter = new EventAdapter(EventBoardActivity.this, postList);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-
-
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,5 +103,54 @@ public class EventBoardActivity extends AppCompatActivity {
                 startActivity(new Intent(EventBoardActivity.this, MainActivity.class));
             }
         });
+
+        dbRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                DatabaseReference temp = dataSnapshot.getRef();
+
+                //DONT DELETE
+                //Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
+
+                Post post = dataSnapshot.getValue(Post.class);
+                post.setPostID(temp.getKey());
+                postList.add(post);
+
+                adapter = new EventAdapter(EventBoardActivity.this, postList);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+            if(flag==1) {
+
+            }
     }
 }
