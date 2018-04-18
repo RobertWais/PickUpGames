@@ -7,15 +7,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import Model.Post;
 import Model.ListItem;
 
 public class CreateEventActivity extends AppCompatActivity {
 
     private EditText titleText;
     private EditText descText;
+    private EditText timeText;
     private Button createButton;
     private Button cancelButton;
+    private FirebaseDatabase fDatabase;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +32,26 @@ public class CreateEventActivity extends AppCompatActivity {
 
         titleText = findViewById(R.id.enterTitle);
         descText = findViewById(R.id.enterDescription);
+        timeText = findViewById(R.id.time);
         createButton = findViewById(R.id.submit);
         cancelButton = findViewById(R.id.cancel);
+
+        fDatabase = FirebaseDatabase.getInstance();
+        dbRef = fDatabase.getReference().child("Posts").push();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dbRef.setValue(new Post(1, 0, descText.getText().toString(),
+                        timeText.getText().toString(), titleText.getText().toString()));
+
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
+                Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
+                /*
                 intent.putExtra("flag", "create");
                 intent.putExtra("title", titleText.getText().toString());
                 intent.putExtra("desc", descText.getText().toString());
+                */
                 startActivity(intent);
             }
         });
