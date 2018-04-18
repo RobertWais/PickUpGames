@@ -45,7 +45,6 @@ public class EventBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -120,6 +119,7 @@ public class EventBoardActivity extends AppCompatActivity {
                 postList.add(post);
 
                 adapter = new EventAdapter(EventBoardActivity.this, postList);
+
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
