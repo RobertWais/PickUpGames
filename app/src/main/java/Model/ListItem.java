@@ -11,11 +11,13 @@ import java.io.Serializable;
 public class ListItem {
 
     private String name;
-    private String description;
+    private String userName;
+    private String attending;
 
-    public ListItem(String name, String description) {
+    public ListItem(String name, String userName, int attending) {
         this.name = name;
-        this.description = description;
+        this.userName = userName;
+        this.attending = attending + " attending";
     }
 
     public String getName() {
@@ -26,11 +28,15 @@ public class ListItem {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
+
+    public String getAttending() {return attending;}
+
+    public void setAttending(int attending) {this.attending = attending + " attending";}
 }
