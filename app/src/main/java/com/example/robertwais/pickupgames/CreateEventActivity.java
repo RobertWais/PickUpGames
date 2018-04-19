@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,11 +26,16 @@ public class CreateEventActivity extends AppCompatActivity {
     private Button cancelButton;
     private FirebaseDatabase fDatabase;
     private DatabaseReference dbRef;
+    private FirebaseUser user;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         titleText = findViewById(R.id.enterTitle);
         descText = findViewById(R.id.enterDescription);
@@ -39,11 +46,11 @@ public class CreateEventActivity extends AppCompatActivity {
         fDatabase = FirebaseDatabase.getInstance();
         dbRef = fDatabase.getReference().child("Posts").push();
 
-        createButton.setOnClickListener(new View.OnClickListener() {
+
+            createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbRef.setValue(new Post(1, 0, descText.getText().toString(),
-                        timeText.getText().toString(), titleText.getText().toString()));
+                dbRef.setValue(new Post("1:00AM", descText.getText().toString(), "Change later", titleText.getText().toString(), user.getUid()));
 
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
                 Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();

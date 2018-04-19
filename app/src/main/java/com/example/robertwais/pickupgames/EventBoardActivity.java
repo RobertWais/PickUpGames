@@ -90,7 +90,6 @@ public class EventBoardActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventBoardActivity.this, CreateEventActivity.class);
                 //intent.putExtra("list", listItems);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -113,7 +112,7 @@ public class EventBoardActivity extends AppCompatActivity {
                 //Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
 
                 Post post = dataSnapshot.getValue(Post.class);
-                post.setPostID(temp.getKey());
+                post.setPostId(temp.getKey());
                 postList.add(post);
 
                 adapter = new EventAdapter(EventBoardActivity.this, postList);
@@ -131,7 +130,7 @@ public class EventBoardActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+            ///ADD REMOVE
             }
 
             @Override

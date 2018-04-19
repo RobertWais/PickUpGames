@@ -7,38 +7,27 @@ package Model;
  */
 
 public class Post {
-    private int attending;
-    private int comments;
+    private String timeCreated;
     private String description;
     private String time;
     private String title;
-    private String postID;
+    private String userID;
+    private String postId;
 
-    public Post(int attending, int comments, String description, String time, String title) {
-        this.attending = attending;
-        this.comments = comments;
+    public Post(String timeCreated, String description, String time, String title,String userID) {
+        this.timeCreated = timeCreated;
         this.description = description;
         this.time = time;
         this.title = title;
+        this.userID = userID;
     }
+
     public Post(){}
 
-    public String getPostID() {
-        return postID;
-    }
 
-    public void setPostID(String postID) {
-        this.postID = postID;
-    }
 
     //GETTERS
-    public int getAttending() {
-        return attending;
-    }
 
-    public int getComments() {
-        return comments;
-    }
 
     public String getDescription() {
         return description;
@@ -52,13 +41,23 @@ public class Post {
         return title;
     }
 
-    //SETTERS
-    public void setAttending(int attending) {
-        this.attending = attending;
+    public String getTimeCreated() {
+        return timeCreated;
     }
 
-    public void setComments(int comments) {
-        this.comments = comments;
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+//SETTERS
+
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public void setDescription(String description) {

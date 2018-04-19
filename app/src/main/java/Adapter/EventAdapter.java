@@ -78,7 +78,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             intent.putExtra("Title", item.getTitle());
             intent.putExtra("Description", item.getDescription());
             intent.putExtra("Time",item.getTime());
-            intent.putExtra("CommentsID",item.getPostID());
+            intent.putExtra("CommentsID",item.getPostId());
 
             context.startActivity(intent);
             //Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
