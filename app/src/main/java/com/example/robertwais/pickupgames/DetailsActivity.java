@@ -84,7 +84,7 @@ private ArrayList<String> localList;
                     String id = Integer.toString(attendingSet.size());
 
                     refAttending.child(id).setValue((String)user.getUid());
-                    Toast.makeText(DetailsActivity.this, "Not attending yet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, "You are now attending this event", Toast.LENGTH_SHORT).show();
                 }
                 //if not add to attending
                 //if so display toast
