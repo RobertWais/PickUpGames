@@ -3,6 +3,7 @@ package com.example.robertwais.pickupgames;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -68,6 +69,8 @@ private ArrayList<String> localList;
         descIn = (TextView) findViewById(R.id.descInput);
         titleIN = (TextView) findViewById(R.id.titleInput);
         timeIN = (TextView) findViewById(R.id.timeInput);
+
+        descIn.setMovementMethod(new ScrollingMovementMethod());
 
         timeIN.setText(passedThru.getString("Time"));
         descIn.setText(passedThru.getString("Description"));
