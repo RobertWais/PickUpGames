@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +32,16 @@ import Model.Post;
 
 public class DetailsActivity extends AppCompatActivity {
 private String title, description,keyAttending;
-private TextView descIn, titleIN, timeIN;
+private TextView descIn, titleIN, timeIN,commentField;
 private Bundle passedThru;
 private Button attend, decline, delete;
 private FirebaseUser user;
 private FirebaseAuth auth;
 private FirebaseDatabase db;
-private DatabaseReference dbRef, refPost,refComments,refAttending,postRef;
+private DatabaseReference dbRef, refPost,refComments,refAttending,postRef,postUserID;
 private HashSet<String> attendingSet = new HashSet<>();
 private ArrayList<String> localList;
+private String postID;
 
 
     @Override
@@ -50,6 +52,7 @@ private ArrayList<String> localList;
         db = FirebaseDatabase.getInstance();
 
         postRef = db.getReference().child("Posts").child(passedThru.getString("CommentsID"));
+        postUserID = db.getReference().child("Posts").child(passedThru.getString("CommentsID")).child("userID");
         dbRef = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments");
         refPost = db.getReference().child("Comments").child(passedThru.getString("CommentsID"));
         refComments = refPost.child("comments");
@@ -64,7 +67,7 @@ private ArrayList<String> localList;
         //Toast.makeText(DetailsActivity.this,"User "+user.getUid(), Toast.LENGTH_LONG).show();
 
 
-
+        commentField = (EditText) findViewById(R.id.emailId);
         delete = (Button) findViewById(R.id.deleteBtn);
         attend = (Button) findViewById(R.id.attendingBtn);
         decline = (Button) findViewById(R.id.declineBtn);
@@ -79,13 +82,31 @@ private ArrayList<String> localList;
         descIn.setText(passedThru.getString("Description"));
         titleIN.setText(passedThru.getString("Title"));
 
-
-        delete.setOnClickListener(new View.OnClickListener() {
+        postUserID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                postRef.removeValue();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                postID= (String) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (user.getUid().equals(postID)) {
+                            postRef.removeValue();
+                            finish();
+                        }else{
+                            Toast.makeText(DetailsActivity.this, "You cannoot delete this Post", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                });
 
         attend.setOnClickListener(new View.OnClickListener() {
             @Override
