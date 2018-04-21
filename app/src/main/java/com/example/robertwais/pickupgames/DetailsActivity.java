@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,11 +33,11 @@ public class DetailsActivity extends AppCompatActivity {
 private String title, description,keyAttending;
 private TextView descIn, titleIN, timeIN;
 private Bundle passedThru;
-private Button attend, decline;
+private Button attend, decline, delete;
 private FirebaseUser user;
 private FirebaseAuth auth;
 private FirebaseDatabase db;
-private DatabaseReference dbRef, refPost,refComments,refAttending;
+private DatabaseReference dbRef, refPost,refComments,refAttending,postRef;
 private HashSet<String> attendingSet = new HashSet<>();
 private ArrayList<String> localList;
 
@@ -48,6 +49,7 @@ private ArrayList<String> localList;
         passedThru = getIntent().getExtras();
         db = FirebaseDatabase.getInstance();
 
+        postRef = db.getReference().child("Posts").child(passedThru.getString("CommentsID"));
         dbRef = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments");
         refPost = db.getReference().child("Comments").child(passedThru.getString("CommentsID"));
         refComments = refPost.child("comments");
@@ -63,12 +65,13 @@ private ArrayList<String> localList;
 
 
 
-
+        delete = (Button) findViewById(R.id.deleteBtn);
         attend = (Button) findViewById(R.id.attendingBtn);
         decline = (Button) findViewById(R.id.declineBtn);
         descIn = (TextView) findViewById(R.id.descInput);
         titleIN = (TextView) findViewById(R.id.titleInput);
         timeIN = (TextView) findViewById(R.id.timeInput);
+
 
         descIn.setMovementMethod(new ScrollingMovementMethod());
 
@@ -76,6 +79,13 @@ private ArrayList<String> localList;
         descIn.setText(passedThru.getString("Description"));
         titleIN.setText(passedThru.getString("Title"));
 
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postRef.removeValue();
+            }
+        });
 
         attend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,14 +141,15 @@ private ArrayList<String> localList;
                 public void onDataChange(DataSnapshot snapshot) {
                     //ArrayList<Integer> list = new ArrayList<>();
                     //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
-                    ArrayList<String> messages = (ArrayList) snapshot.getValue();
+                    //ArrayList<String> messages = (ArrayList) snapshot.getValue();
+                    HashMap<String,String> messages = (HashMap) snapshot.getValue();
                     if(messages!=null) {
-                        for (int i = 0; i < messages.size(); i++) {
-                            Toast.makeText(DetailsActivity.this, "Message " + messages.get(i), Toast.LENGTH_SHORT).show();
+                        for(String s: messages.keySet()){
+                            Toast.makeText(DetailsActivity.this, "User " + s+" Message: "+messages.get(s), Toast.LENGTH_SHORT).show();
+
                         }
                     }else{
                         Toast.makeText(DetailsActivity.this, "No Messages", Toast.LENGTH_SHORT).show();
-
                     }
                 }
 

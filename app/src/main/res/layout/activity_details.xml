@@ -10,7 +10,7 @@
         android:id="@+id/declineBtn"
         android:layout_width="152dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="172dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginEnd="16dp"
         android:text="@string/notgoing"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,9 +18,9 @@
 
     <TextView
         android:id="@+id/titleInput"
-        android:layout_width="356dp"
+        android:layout_width="284dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
@@ -28,7 +28,7 @@
         android:textAlignment="textStart"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +84,7 @@
         app:layout_constraintBottom_toTopOf="@+id/attendingBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.774" />
+        app:layout_constraintVertical_bias="0.98" />
 
     <TextView
         android:id="@+id/timeInput"
@@ -108,12 +108,28 @@
         android:id="@+id/attendingBtn"
         android:layout_width="152dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="172dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/attending"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/declineBtn"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="62dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_red_dark"
+        android:gravity="top|center_vertical|center_horizontal|center"
+        android:text="-"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.017" />
 </android.support.constraint.ConstraintLayout>

@@ -71,4 +71,38 @@ public class Post {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    //EQUALS METHOD
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Post post = (Post) o;
+
+        if (getTimeCreated() != null ? !getTimeCreated().equals(post.getTimeCreated()) : post.getTimeCreated() != null)
+            return false;
+        if (getDescription() != null ? !getDescription().equals(post.getDescription()) : post.getDescription() != null)
+            return false;
+        if (getTime() != null ? !getTime().equals(post.getTime()) : post.getTime() != null)
+            return false;
+        if (getTitle() != null ? !getTitle().equals(post.getTitle()) : post.getTitle() != null)
+            return false;
+        if (getUserID() != null ? !getUserID().equals(post.getUserID()) : post.getUserID() != null)
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = timeCreated.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + time.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + userID.hashCode();
+        result = 31 * result + (postId != null ? postId.hashCode() : 0);
+        return result;
+    }
 }

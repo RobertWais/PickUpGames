@@ -53,6 +53,7 @@ public class EventBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -105,7 +106,6 @@ public class EventBoardActivity extends AppCompatActivity {
         dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 DatabaseReference temp = dataSnapshot.getRef();
 
                 //DONT DELETE
@@ -113,14 +113,10 @@ public class EventBoardActivity extends AppCompatActivity {
 
                 Post post = dataSnapshot.getValue(Post.class);
                 post.setPostId(temp.getKey());
-                postList.add(post);
-
                 adapter = new EventAdapter(EventBoardActivity.this, postList);
-
                 recyclerView.setAdapter(adapter);
+                postList.add(post);
                 adapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -131,6 +127,13 @@ public class EventBoardActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             ///ADD REMOVE
+                String key = dataSnapshot.getKey();
+                Post p = dataSnapshot.getValue(Post.class);
+                if(postList.contains(p)){
+                    postList.remove(p);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(EventBoardActivity.this,"Post Worked", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
