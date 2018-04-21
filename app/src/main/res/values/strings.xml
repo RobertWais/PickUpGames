@@ -10,4 +10,10 @@
     <string name="timeFrame">Time</string>
     <string name="attending">Attend</string>
     <string name="notgoing">Decline</string>
+    <string name="enter_name">Enter Username</string>
+    <string name="add_btn">Add</string>
+    <string name="email_hint">Email</string>
+    <string name="name_hint">Username</string>
+    <string name="pwd_hint">Password</string>
+    <string name="enter_info">Enter Information</string>
 </resources>

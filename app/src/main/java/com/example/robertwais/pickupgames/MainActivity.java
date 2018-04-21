@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login, signUp, signOut;
     private String username;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private EditText popupUsername;
+    private EditText popupEmail;
+    private EditText popupPwd;
+    private Button addBtn;
 
 
 
@@ -120,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String emailText = email.getText().toString();
                 username = emailText;
                 String passwordText = password.getText().toString();
@@ -127,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                createPopupDialog();
+                /*
                 mAuth.createUserWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -147,15 +156,59 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+                */
             }
         });
 
+    }
+
+    private void createPopupDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.popup, null);
+        popupUsername = view.findViewById(R.id.userName);
+        popupEmail = view.findViewById(R.id.email);
+        popupPwd = view.findViewById(R.id.password);
+        addBtn = view.findViewById(R.id.add);
+
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        addBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                addUser(popupEmail.getText().toString(), popupPwd.getText().toString(), popupUsername.getText().toString());
+                dialog.hide();
+            }
+        });
     }
 
     @Override
     protected  void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    public void addUser(final String email, String password, final String username) {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //Show Dialog
+                    alert = new AlertDialog.Builder(MainActivity.this);
+
+
+                    currUser = FirebaseAuth.getInstance().getCurrentUser();
+                    User user = new User(email, username, 12);
+                    mDatabase.child("users").child(currUser.getUid()).setValue(user);
+                    //mDatabase.child("users").child("1").setValue("2");
+                    //database.child("users").child(emailText).setValue("yes");
+                    Toast.makeText(MainActivity.this, "Created Account", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /*
