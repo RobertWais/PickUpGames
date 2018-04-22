@@ -16,4 +16,8 @@
     <string name="name_hint">Username</string>
     <string name="pwd_hint">Password</string>
     <string name="enter_info">Enter Information</string>
+    <string-array name="time_options">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
 </resources>

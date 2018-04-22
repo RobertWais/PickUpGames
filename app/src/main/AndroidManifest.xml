@@ -19,8 +19,7 @@
         </activity>
         <activity android:name=".EventBoardActivity" />
         <activity android:name=".CreateEventActivity" />
-        <activity android:name=".DetailsActivity">
-            android:windowSoftInputMode="adjustResize"
+        <activity android:name=".DetailsActivity" android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
