@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 //test test testRob testRob2
     private AlertDialog.Builder alert;
@@ -43,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        Toast.makeText(MainActivity.this,"Hour: "+hour+" Minutre: "+minute, Toast.LENGTH_LONG).show();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = FirebaseDatabase.getInstance();
