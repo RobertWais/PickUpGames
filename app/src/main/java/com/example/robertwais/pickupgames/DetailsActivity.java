@@ -232,12 +232,14 @@ public class DetailsActivity extends AppCompatActivity {
 
                 listItems.removeAll(listItems);
                 ArrayList<HashMap<String,String>> messages = (ArrayList) snapshot.getValue();
+
                 //HashMap<String, Comment> messages = (HashMap) snapshot.getValue();
-                commentSize= messages.size();
+                if (messages != null) {
+
+                    commentSize= messages.size();
                 Stats.getInstance().setCommentSize(commentSize);
                 Toast.makeText(DetailsActivity.this, "Comment size: "+commentSize, Toast.LENGTH_SHORT).show();
 
-                if (messages != null) {
 
                     //for (String s : messages.keySet()) {
                     // Comment tempComm = messages.get(s);
