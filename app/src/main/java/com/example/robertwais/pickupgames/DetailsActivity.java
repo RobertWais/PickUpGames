@@ -33,22 +33,25 @@ import Adapter.EventAdapter;
 import Adapter.commentAdapter;
 import Model.Comment;
 import Model.Post;
+import Model.Stats;
 
 public class DetailsActivity extends AppCompatActivity {
     private String title, description, keyAttending;
     private TextView descIn, titleIN, timeIN, commentField;
     private Bundle passedThru;
-    private Button attend, decline, delete;
+    private Button attend, decline, delete,commentBtn;
     private FirebaseUser user;
     private FirebaseAuth auth;
     private FirebaseDatabase db;
-    private DatabaseReference dbRef, refPost, refComments, refAttending, postRef, postUserID;
+    private DatabaseReference dbRef, refPost, refComments,
+            refAttending, postRef, postUserID,userNameRef,setcomment;
     private HashSet<String> attendingSet = new HashSet<>();
     private ArrayList<String> localList;
-    private String postID;
+    private String postID,userName;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Comment> listItems;
+    private int commentSize;
 
 
     @Override
@@ -74,7 +77,11 @@ public class DetailsActivity extends AppCompatActivity {
 
         passedThru = getIntent().getExtras();
         db = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
+
+        userNameRef = db.getReference().child("users").child(user.getUid()).child("name");
         postRef = db.getReference().child("Posts").child(passedThru.getString("CommentsID"));
         postUserID = db.getReference().child("Posts").child(passedThru.getString("CommentsID")).child("userID");
         dbRef = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments");
@@ -86,12 +93,9 @@ public class DetailsActivity extends AppCompatActivity {
             Toast.makeText(DetailsActivity.this, "We null", Toast.LENGTH_SHORT).show();
         }
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        //Toast.makeText(DetailsActivity.this,"User "+user.getUid(), Toast.LENGTH_LONG).show();
 
-
-        commentField = (EditText) findViewById(R.id.emailId);
+        commentBtn = (Button) findViewById(R.id.addComment);
+        commentField = (EditText) findViewById(R.id.commentInput);
         delete = (Button) findViewById(R.id.deleteBtn);
         attend = (Button) findViewById(R.id.attendingBtn);
         decline = (Button) findViewById(R.id.declineBtn);
@@ -105,6 +109,18 @@ public class DetailsActivity extends AppCompatActivity {
         timeIN.setText(passedThru.getString("Time"));
         descIn.setText(passedThru.getString("Description"));
         titleIN.setText(passedThru.getString("Title"));
+
+        userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userName = (String) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         postUserID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -128,6 +144,16 @@ public class DetailsActivity extends AppCompatActivity {
                     Toast.makeText(DetailsActivity.this, "You cannoot delete this Post", Toast.LENGTH_SHORT).show();
 
                 }
+
+            }
+        });
+
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment tempComm = new Comment(userName,commentField.getText().toString());
+                setcomment = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments").child(Integer.toString(commentSize));
+                setcomment.setValue(tempComm);
 
             }
         });
@@ -172,115 +198,76 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        refPost.addChildEventListener(new ChildEventListener() {
+        refAttending.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> attending = (ArrayList) dataSnapshot.getValue();
+                //List attending = (List) dataSnapshot.getValue();
+                localList = attending;
+                attendingSet = new HashSet<>();
+                if (attending != null) {
+                    for (int i = 0; i < attending.size(); i++) {
+                        if (((String) attending.get(i)).equals(user.getUid())) {
 
-                DatabaseReference temp = dataSnapshot.getRef();
-
-                //DONT DELETE
-
-                Toast.makeText(DetailsActivity.this,"Username?we: "+ temp.getKey()+"val: "+s, Toast.LENGTH_LONG).show();
-                /*
-                String tempUser = s;
-                String tempComment = (String) dataSnapshot.getValue();
-                Comment tempFull = new Comment(tempUser, tempComment);
-                adapter = new commentAdapter(DetailsActivity.this, listItems);
-                recyclerView.setAdapter(adapter);
-                listItems.add(tempFull);
-                adapter.notifyDataSetChanged();
-                */
+                        }
+                        attendingSet.add((String) attending.get(i));
+                    }
+                } else {
+                    attending = new ArrayList<>();
+                }
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-
-
         });
 
-    }
-        @Override
-        protected void onStart () {
-            super.onStart();
+        refComments.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //ArrayList<Integer> list = new ArrayList<>();
+                //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
+                //ArrayList<String> messages = (ArrayList) snapshot.getValue();
+                //Toast.makeText(DetailsActivity.this, snapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
 
-            if (refComments != null) {
-                refComments.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        //ArrayList<Integer> list = new ArrayList<>();
-                        //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
-                        //ArrayList<String> messages = (ArrayList) snapshot.getValue();
-                        HashMap<String, String> messages = (HashMap) snapshot.getValue();
-                        if (messages != null) {
-                            for (String s : messages.keySet()) {
-                                Toast.makeText(DetailsActivity.this, "User " + s + " Message: " + messages.get(s), Toast.LENGTH_SHORT).show();
-                                    Comment tempComm = new Comment(s,messages.get(s));
+                listItems.removeAll(listItems);
+                ArrayList<HashMap<String,String>> messages = (ArrayList) snapshot.getValue();
+                //HashMap<String, Comment> messages = (HashMap) snapshot.getValue();
+                commentSize= messages.size();
+                Stats.getInstance().setCommentSize(commentSize);
+                Toast.makeText(DetailsActivity.this, "Comment size: "+commentSize, Toast.LENGTH_SHORT).show();
 
-                                adapter = new commentAdapter(DetailsActivity.this, listItems);
-                                recyclerView.setAdapter(adapter);
-                                listItems.add(tempComm);
-                                adapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            Toast.makeText(DetailsActivity.this, "No Messages", Toast.LENGTH_SHORT).show();
-                        }
+                if (messages != null) {
+
+                    //for (String s : messages.keySet()) {
+                    // Comment tempComm = messages.get(s);
+                    // Toast.makeText(DetailsActivity.this, "User " + tempComm.getUser() + " Message: " + tempComm.getComment(), Toast.LENGTH_SHORT).show();
+                    //Comment tempComm = new Comment(s,messages.get(s));
+                    for(int i=0;i<messages.size();i++){
+
+                        String tempUserName = messages.get(i).get("user");
+                        String tempComment =  messages.get(i).get("comment");
+                        Comment tempComm = new Comment(tempUserName,tempComment);
+
+                        adapter = new commentAdapter(DetailsActivity.this, listItems);
+                        recyclerView.setAdapter(adapter);
+                        listItems.add(tempComm);
+                        adapter.notifyDataSetChanged();
                     }
 
-                    // onCancelled...
+                    // }
+                } else {
+                    Toast.makeText(DetailsActivity.this, "No Messages", Toast.LENGTH_SHORT).show();
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-            refAttending.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> attending = (ArrayList) dataSnapshot.getValue();
-                    //List attending = (List) dataSnapshot.getValue();
-                    localList = attending;
-
-                    attendingSet = new HashSet<>();
-                    if (attending != null) {
-                        for (int i = 0; i < attending.size(); i++) {
-                            if (((String) attending.get(i)).equals(user.getUid())) {
-
-                            }
-                            attendingSet.add((String) attending.get(i));
-                        }
-                    } else {
-                        attending = new ArrayList<>();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-
+            }
+        });
     }
+}
 
 
 
