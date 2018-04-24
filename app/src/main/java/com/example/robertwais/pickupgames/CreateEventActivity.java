@@ -122,8 +122,8 @@ public class CreateEventActivity extends AppCompatActivity {
         dbRef = fDatabase.getReference().child("Posts").push();
 
 
-            createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+        createButton.setOnClickListener(new View.OnClickListener() {
+        @Override
             public void onClick(View view) {
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
 
