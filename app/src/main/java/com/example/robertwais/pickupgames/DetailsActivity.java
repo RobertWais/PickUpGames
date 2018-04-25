@@ -1,6 +1,7 @@
 package com.example.robertwais.pickupgames;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +54,9 @@ public class DetailsActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private List<Comment> listItems;
     private int commentSize;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button confirm, cancel;
 
 
     @Override
@@ -140,14 +144,8 @@ public class DetailsActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user.getUid().equals(postID)) {
-                    postRef.removeValue();
-                    finish();
-                } else {
-                    Toast.makeText(DetailsActivity.this, "You cannoot delete this Post", Toast.LENGTH_SHORT).show();
 
-                }
-
+                createPopupDialog();
             }
         });
 
@@ -289,6 +287,38 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void createPopupDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.are_you_sure, null);
+        confirm = view.findViewById(R.id.yes);
+        cancel = view.findViewById(R.id.no);
+
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        confirm.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                if (user.getUid().equals(postID)) {
+                    postRef.removeValue();
+                    finish();
+                } else {
+                    Toast.makeText(DetailsActivity.this, "You cannoot delete this Post", Toast.LENGTH_SHORT).show();
+
+                }
+                dialog.hide();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
             }
         });
     }
