@@ -95,10 +95,6 @@ public class DetailsActivity extends AppCompatActivity {
         refAttending = refPost.child("attending");
 
 
-        if (dbRef == null) {
-            Toast.makeText(DetailsActivity.this, "We null", Toast.LENGTH_SHORT).show();
-        }
-
 
         attendingCount = (TextView) findViewById(R.id.attendingDisplay);
         commentBtn = (Button) findViewById(R.id.addComment);
@@ -117,6 +113,8 @@ public class DetailsActivity extends AppCompatActivity {
         descIn.setText(passedThru.getString("Description"));
         titleIN.setText(passedThru.getString("Title"));
 
+
+
         userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -133,6 +131,11 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 postID = (String) dataSnapshot.getValue();
+                if (!user.getUid().equals(postID)) {
+                    View view2 = DetailsActivity.this.getCurrentFocus();
+                   delete.setVisibility(view2.GONE);
+
+                }
             }
 
             @Override

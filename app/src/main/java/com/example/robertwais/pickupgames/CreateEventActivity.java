@@ -140,11 +140,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 hour = hour-12;
             }
             String wholeDate = month+"/"+date+"/"+year+ " "+hour+":"+minute;
-
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
-
                 dbRef.setValue(new Post(wholeDate, descText.getText().toString(), time, titleText.getText().toString(), user.getUid()));
-
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
                 Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
                 /*
