@@ -97,29 +97,31 @@ public class MainActivity extends AppCompatActivity {
                 final String emailText = email.getText().toString();
                 final String passwordText = password.getText().toString();
 
+
+                if(email.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Please fill out username", Toast.LENGTH_SHORT).show();
+                }else if(password.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this,"Please fill out password", Toast.LENGTH_SHORT).show();
+
+                }else{
                     mAuth.signInWithEmailAndPassword(emailText,passwordText)
                             .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                        if (!task.isSuccessful()) {
+                                    if (!task.isSuccessful()) {
 
-                                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
-                                            dbRef.setValue("test2");
-                                            Intent intent = new Intent(MainActivity.this, EventBoardActivity.class);
-                                            intent.putExtra("flag", "login");
-                                            startActivity(intent);
-                                        }
-
-
-
-
+                                        Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
+                                        dbRef.setValue("test2");
+                                        Intent intent = new Intent(MainActivity.this, EventBoardActivity.class);
+                                        intent.putExtra("flag", "login");
+                                        startActivity(intent);
+                                    }
                                 }
                             });
-
-
+                }
             }
         });
 
