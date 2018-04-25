@@ -137,6 +137,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 intent.putExtra("desc", descText.getText().toString());
                 */
                 startActivity(intent);
+                finish();
             }
         });
 

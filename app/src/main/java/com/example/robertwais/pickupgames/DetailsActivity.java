@@ -37,7 +37,7 @@ import Model.Stats;
 
 public class DetailsActivity extends AppCompatActivity {
     private String title, description, keyAttending;
-    private TextView descIn, titleIN, timeIN, commentField;
+    private TextView descIn, titleIN, timeIN, commentField,attendingCount;
     private Bundle passedThru;
     private Button attend, decline, delete,commentBtn;
     private FirebaseUser user;
@@ -89,11 +89,13 @@ public class DetailsActivity extends AppCompatActivity {
         refComments = refPost.child("comments");
         refAttending = refPost.child("attending");
 
+
         if (dbRef == null) {
             Toast.makeText(DetailsActivity.this, "We null", Toast.LENGTH_SHORT).show();
         }
 
 
+        attendingCount = (TextView) findViewById(R.id.attendingDisplay);
         commentBtn = (Button) findViewById(R.id.addComment);
         commentField = (EditText) findViewById(R.id.commentInput);
         delete = (Button) findViewById(R.id.deleteBtn);
@@ -203,9 +205,17 @@ public class DetailsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> attending = (ArrayList) dataSnapshot.getValue();
                 //List attending = (List) dataSnapshot.getValue();
+
                 localList = attending;
                 attendingSet = new HashSet<>();
                 if (attending != null) {
+                    if(attending.size()==1){
+                        attendingCount.setText(attending.size()+" person going");
+
+                    }else{
+                        attendingCount.setText(attending.size()+" people going");
+
+                    }
                     for (int i = 0; i < attending.size(); i++) {
                         if (((String) attending.get(i)).equals(user.getUid())) {
 
@@ -214,6 +224,7 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 } else {
                     attending = new ArrayList<>();
+                    attendingCount.setText("No one yet attending");
                 }
             }
             @Override

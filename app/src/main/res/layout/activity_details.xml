@@ -35,16 +35,19 @@
         app:layout_constraintTop_toTopOf="@+id/deleteBtn" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/attendingInput"
         android:layout_width="122dp"
         android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/description"
         android:textAlignment="textStart"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/attendingDisplay"
+        app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleInput" />
 
@@ -61,7 +64,7 @@
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/attendingInput" />
 
     <TextView
         android:id="@+id/textView2"
@@ -121,36 +124,30 @@
         android:id="@+id/commentInput"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Comment..."
+        android:inputType="textPersonName"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/declineBtn"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintTop_toBottomOf="@+id/declineBtn" />
 
     <Button
         android:id="@+id/addComment"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="+"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.195"
         app:layout_constraintStart_toEndOf="@+id/commentInput"
-        app:layout_constraintTop_toBottomOf="@+id/declineBtn"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toBottomOf="@+id/declineBtn" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
@@ -164,5 +161,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commentInput" />
+
+    <TextView
+        android:id="@+id/attendingDisplay"
+        android:layout_width="173dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="44dp"
+        android:foregroundGravity="fill_vertical|fill_horizontal|fill"
+        android:gravity="fill_vertical"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/descInput"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
