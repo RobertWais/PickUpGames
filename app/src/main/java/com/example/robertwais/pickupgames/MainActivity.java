@@ -68,10 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 if(user!=null){
                     //User signed in
                     //Go to Post Board Activity
-                    Log.d("Here: ", "user signed in");
                 }else{
                     //user is signed out
-                    //Toast.makeText(MainActivity.this,"Signed Out", Toast.LENGTH_LONG).show();
                     Log.d("Here: ", "user not signed in");
                 }
             }
@@ -80,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Pressed", Toast.LENGTH_SHORT).show();
 
                 final String emailText = email.getText().toString();
                 final String passwordText = password.getText().toString();
@@ -92,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Please fill out password", Toast.LENGTH_SHORT).show();
 
                 }else{
+                    Toast.makeText(MainActivity.this,"Loading...", Toast.LENGTH_SHORT).show();
+
                     mAuth.signInWithEmailAndPassword(emailText,passwordText)
                             .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -124,28 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 createPopupDialog();
-                /*
-                mAuth.createUserWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            //Show Dialog
-                            alert = new AlertDialog.Builder(MainActivity.this);
-
-
-
-                            currUser = FirebaseAuth.getInstance().getCurrentUser();
-                            User user = new User("TestName","Bob",12);
-                            mDatabase.child("users").child(currUser.getUid()).setValue(user);
-                            //mDatabase.child("users").child("1").setValue("2");
-                            //database.child("users").child(emailText).setValue("yes");
-                            Toast.makeText(MainActivity.this, "Created Account", Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-                */
             }
         });
 
@@ -200,14 +177,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    @Override void onStop(){
-        super.onStop();
-        if(mAuthListener != null){
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-    */
+
 
 }
 
