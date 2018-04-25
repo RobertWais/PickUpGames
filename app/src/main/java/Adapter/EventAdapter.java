@@ -60,7 +60,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(final EventAdapter.ViewHolder holder, int position) {
         Post item = listItems.get(position);
         holder.name.setText(item.getTitle());
-        holder.date.setText(item.getTimeCreated());
+        holder.date.setText("Created on: " + item.getTimeCreated());
 
         dbRef = fDatabase.getReference().child("users").child(item.getUserID()).child("name");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,7 +68,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uName = (String)dataSnapshot.getValue();
                 holder.user.setText("User: " + uName);
-                System.out.println(uName);
             }
 
             @Override
