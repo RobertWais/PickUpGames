@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText email;
     private EditText password;
-    private Button login, signUp, signOut;
+    private Button login, signUp;
     private String username;
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordID);
         login = (Button) findViewById(R.id.LoginBtn);
         signUp = (Button) findViewById(R.id.signUpBtn);
-        signOut = (Button) findViewById(R.id.signOutBtn);
-
-
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -112,19 +109,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                 }
-            }
-        });
-
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mAuth.getCurrentUser() == null){
-                    Toast.makeText(MainActivity.this,"No User is signed in", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(MainActivity.this,"Signing out user: "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-                    mAuth.signOut();
-                }
-
             }
         });
 
