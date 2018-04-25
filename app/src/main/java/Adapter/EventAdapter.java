@@ -66,7 +66,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uName = (String)dataSnapshot.getValue();
-                holder.user.setText(uName);
+                holder.user.setText("User: " + uName);
                 System.out.println(uName);
             }
 
