@@ -136,10 +136,12 @@ public class CreateEventActivity extends AppCompatActivity {
             int date = calendar.get(Calendar.DAY_OF_MONTH);
             int month = calendar.get(Calendar.MONTH);
             int year = calendar.get(Calendar.YEAR);
+            String ampm="AM";
             if(hour>12){
                 hour = hour-12;
+                ampm="PM";
             }
-            String wholeDate = month+"/"+date+"/"+year+ " "+hour+":"+minute;
+            String wholeDate = month+"/"+date+"/"+year+ " "+hour+":"+minute+" "+ampm;
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
                 dbRef.setValue(new Post(wholeDate, descText.getText().toString(), time, titleText.getText().toString(), user.getUid()));
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
