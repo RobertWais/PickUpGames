@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -153,9 +154,21 @@ public class DetailsActivity extends AppCompatActivity {
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Comment tempComm = new Comment(userName,commentField.getText().toString());
-                setcomment = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments").child(Integer.toString(commentSize));
-                setcomment.setValue(tempComm);
+                if(commentField.getText().toString().equals("")){
+                    Toast.makeText(DetailsActivity.this, "No comment entered", Toast.LENGTH_SHORT).show();
+
+                }else{
+
+                    Comment tempComm = new Comment(userName,commentField.getText().toString());
+                    setcomment = db.getReference().child("Comments").child(passedThru.getString("CommentsID")).child("comments").child(Integer.toString(commentSize));
+                    setcomment.setValue(tempComm);
+                    View view2 = DetailsActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(DetailsActivity.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+                    }
+                    commentField.setText("");
+                }
 
             }
         });
@@ -249,7 +262,6 @@ public class DetailsActivity extends AppCompatActivity {
 
                     commentSize= messages.size();
                 Stats.getInstance().setCommentSize(commentSize);
-                Toast.makeText(DetailsActivity.this, "Comment size: "+commentSize, Toast.LENGTH_SHORT).show();
 
 
                     //for (String s : messages.keySet()) {
@@ -270,7 +282,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     // }
                 } else {
-                    Toast.makeText(DetailsActivity.this, "No Messages", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, "No Comments on post", Toast.LENGTH_SHORT).show();
                 }
 
             }
