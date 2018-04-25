@@ -1,12 +1,16 @@
 package com.example.robertwais.pickupgames;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +32,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText titleText;
     private EditText descText;
     private EditText timeText;
-    private Button createButton, cancelButton, addHrBtn, subHrBtn, addMinBtn, subMinBtn;
+    private Button createButton, addHrBtn, subHrBtn, addMinBtn, subMinBtn;
     private TextView hourText, minText;
     private FirebaseDatabase fDatabase;
     private DatabaseReference dbRef;
@@ -37,12 +41,18 @@ public class CreateEventActivity extends AppCompatActivity {
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
     private String timeOption;
+    private Button selectDate;
+    private DatePicker picker;
+    private String date;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-
+        date = "";
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -52,11 +62,12 @@ public class CreateEventActivity extends AppCompatActivity {
         descText = findViewById(R.id.enterDescription);
         timeText = findViewById(R.id.time);
         createButton = findViewById(R.id.submit);
-        cancelButton = findViewById(R.id.cancel);
         addHrBtn = findViewById(R.id.addHour);
         subHrBtn = findViewById(R.id.subHour);
         addMinBtn = findViewById(R.id.addMin);
         subMinBtn = findViewById(R.id.subMin);
+
+        selectDate = findViewById(R.id.select);
 
         timeOption = "";
 
@@ -133,17 +144,17 @@ public class CreateEventActivity extends AppCompatActivity {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
             int second = calendar.get(Calendar.SECOND);
-            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            int date1 = calendar.get(Calendar.DAY_OF_MONTH);
             int month = calendar.get(Calendar.MONTH);
             int year = calendar.get(Calendar.YEAR);
             if(hour>12){
                 hour = hour-12;
             }
-            String wholeDate = month+"/"+date+"/"+year+ " "+hour+":"+minute;
+            String wholeDate = month+"/"+date1+"/"+year+ " "+hour+":"+minute;
 
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
 
-                dbRef.setValue(new Post(wholeDate, descText.getText().toString(), time, titleText.getText().toString(), user.getUid()));
+                dbRef.setValue(new Post(wholeDate, descText.getText().toString(), date + " " + time, titleText.getText().toString(), user.getUid()));
 
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
                 Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
@@ -157,6 +168,12 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPopupDialog();
+            }
+        });
 
 
         //MARK: Should change listener to this
@@ -168,18 +185,24 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
         */
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
-                intent.putExtra("flag", "cancel");
-                startActivity(intent);
-                finish();
-            }
-        });
-        
     }
 
+    private void createPopupDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.date_popup, null);
+        confirm = view.findViewById(R.id.ok);
+        picker = view.findViewById(R.id.datePicker);
 
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                date = (picker.getMonth()+1) + "/" + picker.getDayOfMonth() + "/" + picker.getYear();
+                dialog.hide();
+            }
+        });
+    }
 }

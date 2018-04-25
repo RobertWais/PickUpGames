@@ -60,6 +60,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(final EventAdapter.ViewHolder holder, int position) {
         Post item = listItems.get(position);
         holder.name.setText(item.getTitle());
+        holder.date.setText(item.getTimeCreated());
 
         dbRef = fDatabase.getReference().child("users").child(item.getUserID()).child("name");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -118,7 +119,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
-        public TextView name, user, comments, attending;
+        public TextView name, user, comments, attending, date;
 
 
         public ViewHolder(View itemView) {
@@ -129,6 +130,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             user = itemView.findViewById(R.id.user);
             comments = itemView.findViewById(R.id.comments);
             attending = itemView.findViewById(R.id.attending);
+            date = itemView.findViewById(R.id.date);
 
         }
 
