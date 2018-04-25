@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        int second = calendar.get(Calendar.SECOND);
-        int date = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-        Toast.makeText(MainActivity.this,"Hour: "+hour+" Minutre: "+minute, Toast.LENGTH_LONG).show();
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = FirebaseDatabase.getInstance();
@@ -93,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Pressed", Toast.LENGTH_SHORT).show();
 
                 final String emailText = email.getText().toString();
                 final String passwordText = password.getText().toString();
@@ -110,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                                     if (!task.isSuccessful()) {
-
                                         Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
                                     } else {
                                         Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();

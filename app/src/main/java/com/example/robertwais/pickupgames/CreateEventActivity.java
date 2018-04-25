@@ -17,6 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import Model.Post;
 import Model.ListItem;
 
@@ -125,9 +128,22 @@ public class CreateEventActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
         @Override
             public void onClick(View view) {
+
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            int second = calendar.get(Calendar.SECOND);
+            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            if(hour>12){
+                hour = hour-12;
+            }
+            String wholeDate = month+"/"+date+"/"+year+ " "+hour+":"+minute;
+
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
 
-                dbRef.setValue(new Post("1:00AM", descText.getText().toString(), time, titleText.getText().toString(), user.getUid()));
+                dbRef.setValue(new Post(wholeDate, descText.getText().toString(), time, titleText.getText().toString(), user.getUid()));
 
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
                 Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();

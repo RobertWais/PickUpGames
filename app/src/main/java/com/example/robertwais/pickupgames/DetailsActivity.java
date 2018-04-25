@@ -249,11 +249,6 @@ public class DetailsActivity extends AppCompatActivity {
         refComments.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                //ArrayList<Integer> list = new ArrayList<>();
-                //GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<>();
-                //ArrayList<String> messages = (ArrayList) snapshot.getValue();
-                //Toast.makeText(DetailsActivity.this, snapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
-
                 listItems.removeAll(listItems);
                 ArrayList<HashMap<String,String>> messages = (ArrayList) snapshot.getValue();
 
