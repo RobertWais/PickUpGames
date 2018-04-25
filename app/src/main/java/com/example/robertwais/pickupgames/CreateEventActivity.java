@@ -177,16 +177,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-
-        //MARK: Should change listener to this
-        /*
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        */
     }
 
     private void createPopupDialog() {

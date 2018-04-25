@@ -156,8 +156,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(commentField.getText().toString().equals("")){
-                    Toast.makeText(DetailsActivity.this, "No comment entered", Toast.LENGTH_SHORT).show();
-
+                    //NO COMMENTS
                 }else{
 
                     Comment tempComm = new Comment(userName,commentField.getText().toString());
@@ -201,7 +200,6 @@ public class DetailsActivity extends AppCompatActivity {
                     int removeIndex = 0;
                     for (int i = 0; i < localList.size(); i++) {
                         if (localList.get(i).equals(user.getUid())) {
-                            Toast.makeText(DetailsActivity.this, "Its in there", Toast.LENGTH_SHORT).show();
                             removeIndex = i;
                         }
                     }
@@ -224,10 +222,10 @@ public class DetailsActivity extends AppCompatActivity {
                 attendingSet = new HashSet<>();
                 if (attending != null) {
                     if(attending.size()==1){
-                        attendingCount.setText(attending.size()+" person going");
+                        attendingCount.setText("("+attending.size()+" person going"+")");
 
                     }else{
-                        attendingCount.setText(attending.size()+" people going");
+                        attendingCount.setText("("+attending.size()+" people going"+")");
 
                     }
                     for (int i = 0; i < attending.size(); i++) {
@@ -238,7 +236,7 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 } else {
                     attending = new ArrayList<>();
-                    attendingCount.setText("No one yet attending");
+                    attendingCount.setText("(No one yet attending)");
                 }
             }
             @Override
@@ -278,7 +276,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     // }
                 } else {
-                    Toast.makeText(DetailsActivity.this, "No Comments on post", Toast.LENGTH_SHORT).show();
+                    //No Comments on post
                 }
 
             }
@@ -306,7 +304,7 @@ public class DetailsActivity extends AppCompatActivity {
                     postRef.removeValue();
                     finish();
                 } else {
-                    Toast.makeText(DetailsActivity.this, "You cannoot delete this Post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, "You cannot delete this Post", Toast.LENGTH_SHORT).show();
 
                 }
                 dialog.hide();
