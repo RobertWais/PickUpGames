@@ -16,6 +16,7 @@
     <string name="name_hint">Username</string>
     <string name="pwd_hint">Password</string>
     <string name="enter_info">Enter Information</string>
+    <string name="sure">Are you sure you want to delete?</string>
     <string-array name="time_options">
         <item>AM</item>
         <item>PM</item>
