@@ -157,6 +157,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 hour = hour-12;
                 ampm="PM";
             }
+            if(hour==12){
+                ampm="PM";
+            }
+
+            if(hour==0){
+                hour=12;
+            }
+
             String wholeDate = month+"/"+date1+"/"+year+ " "+hour+":"+min + ampm;
 
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
@@ -164,7 +172,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 dbRef.setValue(new Post(wholeDate, descText.getText().toString(), date + " " + time, titleText.getText().toString(), user.getUid()));
 
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
-                Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
                 /*
                 intent.putExtra("flag", "create");
                 intent.putExtra("title", titleText.getText().toString());

@@ -132,7 +132,6 @@ public class EventBoardActivity extends AppCompatActivity {
                 if(postList.contains(p)){
                     postList.remove(p);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(EventBoardActivity.this,"Post Worked", Toast.LENGTH_LONG).show();
                 }
             }
 
