@@ -61,9 +61,6 @@ public class EventBoardActivity extends AppCompatActivity {
         dbRef = fDatabase.getReference().child("Posts");
         postList = new ArrayList<>();
 
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_board);
 
@@ -80,16 +77,11 @@ public class EventBoardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String checkFlag = intent.getStringExtra("flag");
 
-
-        //adapter = new EventAdapter(this, listItems);
-        //recyclerView.setAdapter(adapter);
-
         createButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EventBoardActivity.this, CreateEventActivity.class);
-                //intent.putExtra("list", listItems);
                 startActivity(intent);
             }
         });
@@ -107,10 +99,6 @@ public class EventBoardActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 DatabaseReference temp = dataSnapshot.getRef();
-
-                //DONT DELETE
-                //Toast.makeText(EventBoardActivity.this,"ID: "+ temp.getKey(), Toast.LENGTH_LONG).show();
-
                 Post post = dataSnapshot.getValue(Post.class);
                 post.setPostId(temp.getKey());
                 adapter = new EventAdapter(EventBoardActivity.this, postList);

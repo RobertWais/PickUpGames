@@ -55,7 +55,6 @@ public class CreateEventActivity extends AppCompatActivity {
         date = "";
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
         hourText = findViewById(R.id.hour);
         minText = findViewById(R.id.minute);
         titleText = findViewById(R.id.enterTitle);
@@ -66,9 +65,7 @@ public class CreateEventActivity extends AppCompatActivity {
         subHrBtn = findViewById(R.id.subHour);
         addMinBtn = findViewById(R.id.addMin);
         subMinBtn = findViewById(R.id.subMin);
-
         selectDate = findViewById(R.id.select);
-
         timeOption = "";
 
         spinner = findViewById(R.id.option);
@@ -168,28 +165,18 @@ public class CreateEventActivity extends AppCompatActivity {
             String wholeDate = month+"/"+date1+"/"+year+ " "+hour+":"+min + ampm;
 
                 String time = hourText.getText().toString() + ":" + minText.getText().toString() + " " + timeOption;
-
                 dbRef.setValue(new Post(wholeDate, descText.getText().toString(), date + " " + time, titleText.getText().toString(), user.getUid()));
-
                 Intent intent = new Intent(CreateEventActivity.this, EventBoardActivity.class);
-                //Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
-                /*
-                intent.putExtra("flag", "create");
-                intent.putExtra("title", titleText.getText().toString());
-                intent.putExtra("desc", descText.getText().toString());
-                */
                 startActivity(intent);
                 finish();
             }
         });
-
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createPopupDialog();
             }
         });
-
     }
 
     private void createPopupDialog() {
@@ -197,7 +184,6 @@ public class CreateEventActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.date_popup, null);
         confirm = view.findViewById(R.id.ok);
         picker = view.findViewById(R.id.datePicker);
-
         dialogBuilder.setView(view);
         dialog = dialogBuilder.create();
         dialog.show();

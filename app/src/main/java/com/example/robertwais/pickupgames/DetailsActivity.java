@@ -64,9 +64,6 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        //DATABASE for comments
-
-
         //RECYCLER VIEWS
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
@@ -74,17 +71,12 @@ public class DetailsActivity extends AppCompatActivity {
         listItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Comment comm = new Comment("Bob", "This sucks");
-            //listItems.add(comm);
         }
-        //adapter = new commentAdapter(this,listItems);
-        //recyclerView.setAdapter(adapter);
-
 
         passedThru = getIntent().getExtras();
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
 
         userNameRef = db.getReference().child("users").child(user.getUid()).child("name");
         postRef = db.getReference().child("Posts").child(passedThru.getString("CommentsID"));
@@ -93,8 +85,6 @@ public class DetailsActivity extends AppCompatActivity {
         refPost = db.getReference().child("Comments").child(passedThru.getString("CommentsID"));
         refComments = refPost.child("comments");
         refAttending = refPost.child("attending");
-
-
 
         attendingCount = (TextView) findViewById(R.id.attendingDisplay);
         commentBtn = (Button) findViewById(R.id.addComment);
@@ -108,12 +98,9 @@ public class DetailsActivity extends AppCompatActivity {
 
 
         descIn.setMovementMethod(new ScrollingMovementMethod());
-
         timeIN.setText(passedThru.getString("Time"));
         descIn.setText(passedThru.getString("Description"));
         titleIN.setText(passedThru.getString("Title"));
-
-
 
         userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -185,10 +172,6 @@ public class DetailsActivity extends AppCompatActivity {
                     refAttending.child(id).setValue((String) user.getUid());
                     Toast.makeText(DetailsActivity.this, "You are now attending this event", Toast.LENGTH_SHORT).show();
                 }
-                //if not add to attending
-                //if so display toast
-
-
             }
         });
 
@@ -257,11 +240,6 @@ public class DetailsActivity extends AppCompatActivity {
                     commentSize= messages.size();
                 Stats.getInstance().setCommentSize(commentSize);
 
-
-                    //for (String s : messages.keySet()) {
-                    // Comment tempComm = messages.get(s);
-                    // Toast.makeText(DetailsActivity.this, "User " + tempComm.getUser() + " Message: " + tempComm.getComment(), Toast.LENGTH_SHORT).show();
-                    //Comment tempComm = new Comment(s,messages.get(s));
                     for(int i=0;i<messages.size();i++){
 
                         String tempUserName = messages.get(i).get("user");
@@ -274,11 +252,7 @@ public class DetailsActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
 
-                    // }
-                } else {
-                    //No Comments on post
                 }
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

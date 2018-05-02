@@ -17,23 +17,17 @@ public class DataService {
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-
     private static final DataService ourInstance = new DataService();
-
     public static DataService getInstance() {
         return ourInstance;
     }
-
-
 
     private DataService() {
     }
 
     public void connectToAuth(){
         mAuth = FirebaseAuth.getInstance();
-
     }
-
 
     public void loginUser(){
 

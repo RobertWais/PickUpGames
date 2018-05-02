@@ -64,24 +64,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if(user!=null){
-                    //User signed in
-                    //Go to Post Board Activity
-                }else{
-                    //user is signed out
-                    Log.d("Here: ", "user not signed in");
-                }
             }
         };
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final String emailText = email.getText().toString();
                 final String passwordText = password.getText().toString();
-
 
                 if(email.getText().toString().equals("")){
                     Toast.makeText(MainActivity.this,"Please fill out username", Toast.LENGTH_SHORT).show();
@@ -163,12 +153,9 @@ public class MainActivity extends AppCompatActivity {
                     //Show Dialog
                     alert = new AlertDialog.Builder(MainActivity.this);
 
-
                     currUser = FirebaseAuth.getInstance().getCurrentUser();
                     User user = new User(email, username, 12);
                     mDatabase.child("users").child(currUser.getUid()).setValue(user);
-                    //mDatabase.child("users").child("1").setValue("2");
-                    //database.child("users").child(emailText).setValue("yes");
                     Toast.makeText(MainActivity.this, "Created Account", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage().toString(), Toast.LENGTH_LONG).show();
